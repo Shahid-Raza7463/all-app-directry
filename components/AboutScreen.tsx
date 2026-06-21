@@ -8,13 +8,13 @@ const AboutScreen = ({navigation}) => {
       <Text style={Styles.heading}>About</Text>
       {/* Text paragraph */}
       <Text style={Styles.paragraph}>
-        Hey there, Name's Shahid Raza and I'm a Full Stack Web Developer, worked
-        @TrakAff as a Laravel backend web developer and currently working as
-        Laravel backend web developer @Capitall. I'm proficient in working with
-        and implementing backend for web apps using Php, Laravel, MySQL, Ajax,
-        JSON, JavaScript, React Js, Node Js, HTML, CSS, jQuery, Bootstrap. And I
-        enjoy taking on new challenges. I have 2 years of experience in Backend
-        Web Development.
+        shahid raza Hey there, Name's Shahid Raza and I'm a Full Stack Web Developer,
+        worked @TrakAff as a Laravel backend web developer and currently working
+        as Laravel backend web developer @Capitall. I'm proficient in working
+        with and implementing backend for web apps using Php, Laravel, MySQL,
+        Ajax, JSON, JavaScript, React Js, Node Js, HTML, CSS, jQuery, Bootstrap.
+        And I enjoy taking on new challenges. I have 2 years of experience in
+        Backend Web Development.
       </Text>
       {/* Navigation button */}
       <TouchableOpacity
