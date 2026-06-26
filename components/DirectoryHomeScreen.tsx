@@ -28,11 +28,13 @@ export default function DirectoryHomeScreen({navigation}: any) {
     <SafeAreaView style={s.safe}>
       <ScrollView contentContainerStyle={s.content}>
         <View style={s.header}>
-          <View style={s.brand}>
+          {/* <View style={s.brand}>
             <Icon name="hub" size={25} color="#FFF" />
-          </View>
-          <Text style={s.eyebrow}>SERVE NEARBY</Text>
-          <Text style={s.title}>{'Find trusted help,\nright around you.'}</Text>
+          </View> */}
+          <Text style={s.eyebrow}>SERVICE PROVIDER APPLICATION</Text>
+          <Text style={s.title}>
+            {'Find trusted services,\nright around you.'}
+          </Text>
           <Text style={s.subtitle}>
             Browse trusted local professionals and connect in a tap.
           </Text>
