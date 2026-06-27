@@ -2,16 +2,20 @@ import React from 'react';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StatusBar} from 'react-native';
-import TodoListScreen from './components/todos/TodoListScreen';
-import TodoFormScreen from './components/todos/TodoFormScreen';
-import {TodoProvider} from './components/todos/TodoStore';
+import ExpenseDashboardScreen from './components/expenses/ExpenseDashboardScreen';
+import TransactionListScreen from './components/expenses/TransactionListScreen';
+import TransactionFormScreen from './components/expenses/TransactionFormScreen';
+import {ExpenseProvider} from './components/expenses/ExpenseStore';
 
-export type TodoStackParamList = {
-  TodoList: undefined;
-  TodoForm: {taskId?: string} | undefined;
+export type ExpenseStackParamList = {
+  ExpenseDashboard: undefined;
+  Transactions: undefined;
+  TransactionForm:
+    | {transactionId?: string; initialType?: 'income' | 'expense'}
+    | undefined;
 };
 
-const Stack = createNativeStackNavigator<TodoStackParamList>();
+const Stack = createNativeStackNavigator<ExpenseStackParamList>();
 const theme = {
   ...DefaultTheme,
   colors: {...DefaultTheme.colors, background: '#F7F8FC'},
@@ -19,7 +23,7 @@ const theme = {
 
 function App() {
   return (
-    <TodoProvider>
+    <ExpenseProvider>
       <NavigationContainer theme={theme}>
         <StatusBar barStyle="dark-content" backgroundColor="#F7F8FC" />
         <Stack.Navigator
@@ -31,20 +35,27 @@ function App() {
             contentStyle: {backgroundColor: '#F7F8FC'},
           }}>
           <Stack.Screen
-            name="TodoList"
-            component={TodoListScreen}
+            name="ExpenseDashboard"
+            component={ExpenseDashboardScreen}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="TodoForm"
-            component={TodoFormScreen}
+            name="Transactions"
+            component={TransactionListScreen}
+            options={{title: 'Transactions'}}
+          />
+          <Stack.Screen
+            name="TransactionForm"
+            component={TransactionFormScreen}
             options={({route}) => ({
-              title: route.params?.taskId ? 'Edit task' : 'New task',
+              title: route.params?.transactionId
+                ? 'Edit transaction'
+                : 'New transaction',
             })}
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </TodoProvider>
+    </ExpenseProvider>
   );
 }
 
