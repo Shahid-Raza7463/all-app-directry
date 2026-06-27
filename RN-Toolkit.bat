@@ -79,8 +79,7 @@ goto menu
 cd /d %PROJECT_PATH%
 git status
 git add .
-git commit -m "Latest Update"
-git push
+git commit -m "App completed"
 pause
 goto menu
 

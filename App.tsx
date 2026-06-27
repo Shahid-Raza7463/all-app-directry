@@ -2,18 +2,16 @@ import React from 'react';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StatusBar} from 'react-native';
-import NotesHomeScreen from './components/notes/NotesHomeScreen';
-import NoteFormScreen from './components/notes/NoteFormScreen';
-import NoteDetailScreen from './components/notes/NoteDetailScreen';
-import {NotesProvider} from './components/notes/NotesStore';
+import TodoListScreen from './components/todos/TodoListScreen';
+import TodoFormScreen from './components/todos/TodoFormScreen';
+import {TodoProvider} from './components/todos/TodoStore';
 
-export type NotesStackParamList = {
-  NotesHome: undefined;
-  NoteForm: {noteId?: string} | undefined;
-  NoteDetail: {noteId: string};
+export type TodoStackParamList = {
+  TodoList: undefined;
+  TodoForm: {taskId?: string} | undefined;
 };
 
-const Stack = createNativeStackNavigator<NotesStackParamList>();
+const Stack = createNativeStackNavigator<TodoStackParamList>();
 const theme = {
   ...DefaultTheme,
   colors: {...DefaultTheme.colors, background: '#F7F8FC'},
@@ -21,7 +19,7 @@ const theme = {
 
 function App() {
   return (
-    <NotesProvider>
+    <TodoProvider>
       <NavigationContainer theme={theme}>
         <StatusBar barStyle="dark-content" backgroundColor="#F7F8FC" />
         <Stack.Navigator
@@ -33,25 +31,20 @@ function App() {
             contentStyle: {backgroundColor: '#F7F8FC'},
           }}>
           <Stack.Screen
-            name="NotesHome"
-            component={NotesHomeScreen}
+            name="TodoList"
+            component={TodoListScreen}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="NoteForm"
-            component={NoteFormScreen}
+            name="TodoForm"
+            component={TodoFormScreen}
             options={({route}) => ({
-              title: route.params?.noteId ? 'Edit note' : 'New note',
+              title: route.params?.taskId ? 'Edit task' : 'New task',
             })}
-          />
-          <Stack.Screen
-            name="NoteDetail"
-            component={NoteDetailScreen}
-            options={{title: 'Note'}}
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </NotesProvider>
+    </TodoProvider>
   );
 }
 
