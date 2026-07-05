@@ -2,60 +2,86 @@ import React from 'react';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StatusBar} from 'react-native';
-import ExpenseDashboardScreen from './components/expenses/ExpenseDashboardScreen';
-import TransactionListScreen from './components/expenses/TransactionListScreen';
-import TransactionFormScreen from './components/expenses/TransactionFormScreen';
-import {ExpenseProvider} from './components/expenses/ExpenseStore';
+import McqHomeScreen from './components/mcq/McqHomeScreen';
+import ScanScreen from './components/mcq/ScanScreen';
+import ResultsScreen from './components/mcq/ResultsScreen';
+import HistoryScreen from './components/mcq/HistoryScreen';
+import SettingsScreen from './components/mcq/SettingsScreen';
+import {McqProvider, useMcq} from './components/mcq/McqStore';
 
-export type ExpenseStackParamList = {
-  ExpenseDashboard: undefined;
-  Transactions: undefined;
-  TransactionForm:
-    | {transactionId?: string; initialType?: 'income' | 'expense'}
-    | undefined;
+export type McqStackParamList = {
+  McqHome: undefined;
+  Scan: undefined;
+  Results: {scanId: string};
+  History: undefined;
+  Settings: undefined;
 };
 
-const Stack = createNativeStackNavigator<ExpenseStackParamList>();
-const theme = {
-  ...DefaultTheme,
-  colors: {...DefaultTheme.colors, background: '#F7F8FC'},
+const Stack = createNativeStackNavigator<McqStackParamList>();
+
+const AppContent = () => {
+  const {settings} = useMcq();
+  const dark = settings.theme === 'dark';
+  const theme = {
+    ...DefaultTheme,
+    dark,
+    colors: {
+      ...DefaultTheme.colors,
+      background: dark ? '#11141D' : '#F6F7FB',
+      card: dark ? '#171B26' : '#FFFFFF',
+      text: dark ? '#F4F5FA' : '#202432',
+      border: dark ? '#272D3B' : '#E8EAF1',
+    },
+  };
+  return (
+    <NavigationContainer theme={theme}>
+      <StatusBar
+        barStyle={dark ? 'light-content' : 'dark-content'}
+        backgroundColor={dark ? '#11141D' : '#F6F7FB'}
+      />
+      <Stack.Navigator
+        screenOptions={{
+          headerShadowVisible: false,
+          headerStyle: {backgroundColor: theme.colors.background},
+          headerTintColor: theme.colors.text,
+          headerTitleStyle: {fontWeight: '800'},
+          contentStyle: {backgroundColor: theme.colors.background},
+        }}>
+        <Stack.Screen
+          name="McqHome"
+          component={McqHomeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Scan"
+          component={ScanScreen}
+          options={{title: 'Scan questions'}}
+        />
+        <Stack.Screen
+          name="Results"
+          component={ResultsScreen}
+          options={{title: 'Analysis results'}}
+        />
+        <Stack.Screen
+          name="History"
+          component={HistoryScreen}
+          options={{title: 'Scan history'}}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{title: 'Settings'}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 function App() {
   return (
-    <ExpenseProvider>
-      <NavigationContainer theme={theme}>
-        <StatusBar barStyle="dark-content" backgroundColor="#F7F8FC" />
-        <Stack.Navigator
-          screenOptions={{
-            headerShadowVisible: false,
-            headerStyle: {backgroundColor: '#F7F8FC'},
-            headerTintColor: '#202636',
-            headerTitleStyle: {fontWeight: '800'},
-            contentStyle: {backgroundColor: '#F7F8FC'},
-          }}>
-          <Stack.Screen
-            name="ExpenseDashboard"
-            component={ExpenseDashboardScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Transactions"
-            component={TransactionListScreen}
-            options={{title: 'Transactions'}}
-          />
-          <Stack.Screen
-            name="TransactionForm"
-            component={TransactionFormScreen}
-            options={({route}) => ({
-              title: route.params?.transactionId
-                ? 'Edit transaction'
-                : 'New transaction',
-            })}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ExpenseProvider>
+    <McqProvider>
+      <AppContent />
+    </McqProvider>
   );
 }
 

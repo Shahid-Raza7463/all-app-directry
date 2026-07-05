@@ -8,6 +8,21 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 jest.mock('react-native-vector-icons/MaterialIcons', () => 'MaterialIcon');
 jest.mock('react-native-vector-icons/Feather', () => 'FeatherIcon');
 jest.mock('react-native-linear-gradient', () => 'LinearGradient');
+jest.mock('react-native-image-picker', () => ({
+  launchCamera: jest.fn(),
+}));
+jest.mock('@react-native-ml-kit/text-recognition', () => ({
+  __esModule: true,
+  default: {recognize: jest.fn()},
+  TextRecognitionScript: {
+    LATIN: 'Latin',
+    DEVANAGARI: 'Devanagari',
+    JAPANESE: 'Japanese',
+  },
+}));
+jest.mock('@react-native-clipboard/clipboard', () => ({
+  setString: jest.fn(),
+}));
 jest.mock('@react-native-documents/picker', () => ({
   errorCodes: {OPERATION_CANCELED: 'OPERATION_CANCELED'},
   isErrorWithCode: jest.fn(() => false),
